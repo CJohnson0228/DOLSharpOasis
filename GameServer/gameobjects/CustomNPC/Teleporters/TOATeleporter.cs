@@ -34,7 +34,7 @@ namespace DOL.GS
 
             String intro = String.Format(
                 "Greetings Mortal, I have been sent by the Gods to facilitate your movement around the realms of Atlantis. {0} {1} {2} {3}",
-                "Will you begin your journey in the waters of [Oceanus] where the seas bounties are both bountiful and dangerous?",
+                "Will you begin your journey in the waters of [Oceanus-Mesothalasia] where the seas bounties are both bountiful and dangerous?",
                 "Or have you had enough of the water and wish the traverse the ocean of sand in the Deserts of [Stygia]?",
                 "Maybe you wish to brave [Volcanus] where lava is not the only thing that flows freely?",
                 "finally, the sky is but a bridge to be crossed from the majestic forests of [Aerus]");
@@ -52,7 +52,7 @@ namespace DOL.GS
         {
             switch (subSelection.TeleportID.ToLower())
             {
-                case "oceanus":
+                case "oceanus-mesothalasia":
                 {
                     String reply = String.Format(
                         "I have many watery places I may send you. {0} {1} {2} {3} {4} {5} {6}",
