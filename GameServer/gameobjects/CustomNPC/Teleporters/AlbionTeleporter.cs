@@ -27,6 +27,7 @@ using log4net;
 using System.Reflection;
 using DOL.GS.Quests.Catacombs.Obelisks;
 using DOL.GS.Housing;
+using DOL.GS.PacketHandler;
 
 namespace DOL.GS
 {
