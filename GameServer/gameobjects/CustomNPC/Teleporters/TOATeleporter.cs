@@ -19,8 +19,6 @@ using System.Collections;
 using DOL.GS.Spells;
 using log4net;
 using System.Reflection;
-using DOL.GS.Quests.Catacombs.Obelisks;
-using DOL.GS.Housing;
 using DOL.GS.PacketHandler;
 
 namespace DOL.GS
@@ -31,13 +29,22 @@ namespace DOL.GS
     /// <author>CMeyerJohnson</author>
     public class TOATeleporter : GameTeleporter
     {
+        /// <summary>
+        /// Add model and packageID to the teleporter.
+        /// </summary>
+        /// <returns></returns>
+        public override bool AddToWorld()
+        {
+            PackageID = "Yggdrasil";
+            Model = 1195;
+            return base.AddToWorld();
+        }
+        
         protected override string Type
         {
-            get
-            {
-                return "Trials of Atlantis";
-            }
+            get { return "Trials of Atlantis"; }
         }
+        
         /// <summary>
         /// Player right-clicked the teleporter.
         /// </summary>
