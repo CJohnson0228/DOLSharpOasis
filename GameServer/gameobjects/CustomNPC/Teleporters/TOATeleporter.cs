@@ -33,7 +33,7 @@ namespace DOL.GS
                 return false;
 
             String intro = String.Format(
-                "Greetings Mortal, I have been sent by the Gods to facilitate your movement around the realms of Atlantis. {0} {1} {2} {3}",
+                "Greetings Mortal, I have been sent by the Gods to facilitate your movement around the realms of Atlantis.\n{0}\n{1}\n{2}\n{3}",
                 "Will you begin your journey in the waters of [Oceanus-Mesothalasia] where the seas bounties are both bountiful and dangerous?",
                 "Or have you had enough of the water and wish the traverse the ocean of sand in the Deserts of [Stygia]?",
                 "Maybe you wish to brave [Volcanus] where lava is not the only thing that flows freely?",
@@ -101,7 +101,7 @@ namespace DOL.GS
                     SayTo(player, reply);
                     return;
                 }
-            };
+            }
             base.OnSubSelectionPicked(player, subSelection);
         }
 
@@ -109,7 +109,7 @@ namespace DOL.GS
         /// Player has PIcked a destination.
         /// </summary>
         /// <param name="player"></param>
-        /// <parama name="destination"></param>
+        /// <param name="destination"></param>
         protected override void OnDestinationPicked(GamePlayer player, Teleport destination)
         {
             switch (destination.TeleportID.ToLower())
