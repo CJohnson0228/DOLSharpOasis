@@ -31,6 +31,13 @@ namespace DOL.GS
     /// <author>CMeyerJohnson</author>
     public class TOATeleporter : GameTeleporter
     {
+        protected override string Type
+        {
+            get
+            {
+                return "Trials of Atlantis";
+            }
+        }
         /// <summary>
         /// Player right-clicked the teleporter.
         /// </summary>
@@ -42,7 +49,7 @@ namespace DOL.GS
                 return false;
 
             String intro = String.Format(
-                "Greetings Mortal, I have been sent by the Gods to facilitate your movement around the realms of Atlantis.\n{0}\n{1}\n{2}\n{3}",
+                "Greetings Mortal, I have been sent by the Gods to facilitate your movement around the realms of Atlantis.\n {0} {1} {2} {3}",
                 "Will you begin your journey in the waters of [Oceanus-Mesothalasia] where the seas bounties are both bountiful and dangerous?",
                 "Or have you had enough of the water and wish the traverse the ocean of sand in the Deserts of [Stygia]?",
                 "Maybe you wish to brave [Volcanus] where lava is not the only thing that flows freely?",
@@ -115,7 +122,7 @@ namespace DOL.GS
         }
 
         /// <summary>
-        /// Player has PIcked a destination.
+        /// Player has Picked a destination.
         /// </summary>
         /// <param name="player"></param>
         /// <param name="destination"></param>
