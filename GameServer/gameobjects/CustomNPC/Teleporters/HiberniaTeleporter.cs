@@ -45,14 +45,16 @@ namespace DOL.GS
 			if (!base.Interact(player))
 				return false;
 
-			String intro = String.Format("Greetings. I can channel the energies of this place to send you {0} {1} {2} {3} {4} {5} {6}",
-			                             "to far away lands. If you wish to fight in the Frontiers I can send you to [Cruachan Gorge] or to the",
-			                             "border keeps [Druim Ligen] and [Druim Cain]. Maybe you wish to undertake the Trials of",
-			                             "Atlantis in [Oceanus] haven or wish to visit the mysterious Grove of [Domnann] and the [Shrouded Isles]?",
-			                             "You could explore the [Shannon Estuary] or perhaps you would prefer the comforts of the [housing] regions.",
-			                             "Perhaps the fierce [Battlegrounds] are more to your liking or do you wish to meet the citizens inside",
-			                             "the great city of [Tir na Nog] or the [Shar Labyrinth]?",
-			                             "Or perhaps you are interested in porting to our training camp [Fintain]?");
+			String intro = String.Format(
+				"Greetings. I can channel the energies of this place to send you {0} {1} {2} {3} {4} {5} {6} {7}",
+			    "to far away lands. If you wish to fight in the Frontiers I can send you to [Cruachan Gorge] or to the",
+			    "border keeps [Druim Ligen] and [Druim Cain]. Maybe you wish to undertake the Trials of",
+			    "Atlantis in [Oceanus] haven or wish to visit the mysterious Grove of [Domnann] and the [Shrouded Isles]?",
+			    "You could explore the [Shannon Estuary] or perhaps you would prefer the comforts of the [housing] regions.",
+			    "Perhaps the fierce [Battlegrounds] are more to your liking or do you wish to meet the citizens inside",
+			    "the great city of [Tir na Nog] or the [Shar Labyrinth]?",
+			    "Or perhaps you are interested in porting to our training camp [Fintain]?",
+			    "Or do you intend to assist our allies in [Albion] or [Midgard]?");
 			SayTo(player, intro);
 			return true;
 		}
@@ -68,22 +70,42 @@ namespace DOL.GS
 			{
 				case "shrouded isles":
 					{
-						String reply = String.Format("The isles of Hy Brasil are an excellent choice. {0} {1}",
-						                             "Would you prefer the grove of [Domnann] or perhaps one of the outlying towns",
-						                             "like [Droighaid], [Aalid Feie], or [Necht]?");
+						String reply = String.Format(
+							"The isles of Hy Brasil are an excellent choice. {0} {1}",
+						    "Would you prefer the grove of [Domnann] or perhaps one of the outlying towns",
+						    "like [Droighaid], [Aalid Feie], or [Necht]?");
 						SayTo(player, reply);
 						return;
 					}
 				case "housing":
 					{
-						String reply = String.Format("I can send you to your [personal] house. If you do {0} {1} {2} {3}",
-						                             "not have a personal house or wish to be sent to the housing [entrance] then you will",
-						                             "arrive just inside the housing area. I can also send you to your [guild] house. If your",
-						                             "guild does not own a house then you will not be transported. You may go to your [Hearth] bind",
-						                             "as well if you are bound inside a house.");
+						String reply = String.Format(
+							"I can send you to your [personal] house. If you do {0} {1} {2} {3}",
+						    "not have a personal house or wish to be sent to the housing [entrance] then you will",
+						    "arrive just inside the housing area. I can also send you to your [guild] house. If your",
+						    "guild does not own a house then you will not be transported. You may go to your [Hearth] bind",
+						    "as well if you are bound inside a house.");
 						SayTo(player, reply);
 						return;
 					}
+				case "albion":
+				{
+					String reply = String.Format(
+						"I can send you to the Capital city of [Camelot], {0}, {1}", 
+						"or one of the many villages such as [Adribard's Retreat], [Caer Ulfwych], [Campacorentin Station], [Cornwall Station], [Cotswald Village], or [Prydwen Keep]", 
+						"or do you prefer the areas of the Shrouded Isles, [Caer Gothwaite], [Gothwaite] Harbor, [Caer Diogel], [Wearyall Village], or [Fort Gwyntell]");
+					SayTo(player, reply);
+					return;
+				}
+				case "midgard":
+				{
+					String reply = String.Format(
+						"I can send you to the Capital city of [Jordheim], {0}, {1}", 
+						"or one of the many villages such as [Audilten], [Fort Alta], [Fort Veldon], [Gna Faste], [Gotar], or [Huginfell]", 
+						"or do you prefer the areas of the Shrouded Isles, [Aegirhamn], [Gjarken], [Hagall], or [Knarr]");
+					SayTo(player, reply);
+					return;
+				}
 			}
 			base.OnSubSelectionPicked(player, subSelection);
 		}
@@ -163,6 +185,64 @@ namespace DOL.GS
 						SayTo(player,"Sorry, you are far too experienced to enjoy this place !");
 						return;
 					}
+					break;
+				// Midgard destinations
+				case "jordheim":
+					SayTo(player, "The great city of Jordheim awaits you.");
+					break;
+				case "audilten":
+					break;
+				case "fort alta":
+					break;
+				case "fort veldon":
+					break;
+				case "gna faste":
+					break;
+				case "gotar":
+					break;
+				case "huginfell":
+					break;
+				case "aegirhamn":
+					SayTo(player, "The Shrouded Isles await you.");
+					break;
+				case "gjarken":
+					SayTo(player, "The Shrouded Isles await you.");
+					break;
+				case "hagall":
+					SayTo(player, "The Shrouded Isles await you.");
+					break;
+				case "knarr":
+					SayTo(player, "The Shrouded Isles await you.");
+					break;
+				// Albion destinations
+				case "camelot":
+					SayTo(player, "The great city awaits!");
+					break;
+				case "adribard's retreat":
+					break;
+				case "caer ulfwych":
+					break;
+				case "campacorentin station":
+					break;
+				case "cornwall station":
+					break;
+				case "cotswald village":
+					break;
+				case "prydwen keep":
+					break;
+				case "caer gothwaite":
+					break;
+				case "gothwaite":
+					SayTo(player, "The Shrouded Isles await you.");
+					break;
+				case "caer diogel":
+					SayTo(player, "The Shrouded Isles await you.");
+					break;
+				case "wearyall village":
+					SayTo(player, "The Shrouded Isles await you.");
+					break;
+				case "fort gwyntell":
+					SayTo(player, "The Shrouded Isles await you.");
 					break;
 				default:
 					SayTo(player, "This destination is not yet supported.");
