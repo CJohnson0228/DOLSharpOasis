@@ -78,11 +78,11 @@ namespace DOL.GS
                 case "na sidhe of hibernia":
                 {
                     String reply = String.Format(
-                        "the areas I require assistance for in Hibernia are: \n {0}, {1}, {2}, {3}, {4}", 
-                        "[Muire's Tomb] levels 8-20\n", 
-                        "[Spraggon Den] levels 20-25\n", 
-                        "[Koalinth Caverns] levels 22-28\n", 
-                        "[Treidh Caillte] levels 30-40\n", 
+                        "the areas I require assistance for in Hibernia are: \n {0} {1} {2} {3} {4}", 
+                        "[Muire's Tomb] levels 8-20, \n", 
+                        "[Spraggon Den] levels 20-25, \n", 
+                        "[Koalinth Caverns] levels 22-28, \n", 
+                        "[Treidh Caillte] levels 30-40, \n", 
                         "[Coruscating Mines] levels 35-50\n");
                     SayTo(player, reply);
                     return;
@@ -90,23 +90,23 @@ namespace DOL.GS
                 case "hollows of midgard":
                 {
                     String reply = String.Format(
-                        "the areas I require assistance for in Midgard are: \n {0}, {1}, {2}, {3}, {4}", 
-                        "[Nisse's Lair] levels 7-20\n", 
-                        "[Cursed Tomb] levels 15-22\n", 
-                        "[Vendo Caverns] levels 16-20\n", 
-                        "[Varulvhamn] levels 30-40\n", 
-                        "[Spindelhalla] levels 30-45\n");
+                        "the areas I require assistance for in Midgard are: \n {0} {1} {2} {3} {4}", 
+                        "[Nisse's Lair] levels 7-20, \n", 
+                        "[Cursed Tomb] levels 15-22, \n", 
+                        "[Vendo Caverns] levels 16-20, \n", 
+                        "[Varulvhamn] levels 30-40, \n", 
+                        "[Spindelhalla] levels 30-45, \n");
                     SayTo(player, reply);
                     return;
                 }
                 case "caverns of albion":
                 {
                     String reply = String.Format(
-                        "the areas I require assistance for in Albion are: \n {0}, {1}, {2}, {3}, {4}", 
-                        "[Tomb of Mithra] levels 7-20\n", 
-                        "[Keltoi Fogou] levels 15-30\n", 
-                        "[Tepok's Mine] levels 17-36\n", 
-                        "[Catacombs of Cardova] levels 25-35\n", 
+                        "the areas I require assistance for in Albion are: \n {0} {1} {2} {3} {4}", 
+                        "[Tomb of Mithra] levels 7-20, \n", 
+                        "[Keltoi Fogou] levels 15-30, \n", 
+                        "[Tepok's Mine] levels 17-36, \n", 
+                        "[Catacombs of Cardova] levels 25-35, \n", 
                         "[Stonehenge Barrows] levels 30-50\n");
                     SayTo(player, reply);
                     return;
