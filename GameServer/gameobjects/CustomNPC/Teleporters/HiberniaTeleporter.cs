@@ -101,7 +101,7 @@ namespace DOL.GS
 				{
 					String reply = String.Format(
 						"I can send you to the Capital city of [Jordheim], {0}, {1}", 
-						"or one of the many villages such as [Audilten], [Fort Alta], [Fort Veldon], [Gna Faste], [Gotar], or [Huginfell]", 
+						"or one of the many villages such as [Audilten], [Fort Atla], [Fort Veldon], [Gna Faste], [Gotar], or [Huginfell]", 
 						"or do you prefer the areas of the Shrouded Isles, [Aegirhamn], [Gjarken], [Hagall], or [Knarr]");
 					SayTo(player, reply);
 					return;
