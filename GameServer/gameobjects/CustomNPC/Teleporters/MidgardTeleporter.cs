@@ -99,7 +99,7 @@ namespace DOL.GS
 				case "hibernia":
 					{
 						String reply = String.Format(
-							"I can send you to the Capital city of [Tir Na Nog], {0}, {1}", 
+							"I can send you to the Capital city of [Tir na Nog], {0}, {1}", 
 							"or one of the many villages such as [Mag Mell], [Ardagh], [Connla], [Howth], or [Innis Carthaig] ", 
 							"or do you prefer the areas of the Shrouded Isles, [Aalid Feie], [Domnann], [Droighaid], or [Necht]");
 						SayTo(player, reply);
