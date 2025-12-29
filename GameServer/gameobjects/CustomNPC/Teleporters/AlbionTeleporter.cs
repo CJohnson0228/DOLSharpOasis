@@ -73,8 +73,8 @@ namespace DOL.GS
 			                             "Atlantis in [Oceanus] haven or wish to visit the harbor of [Gothwaite] and the [Shrouded Isles]?",
 			                             "You could explore the [Avalon Marsh] or perhaps you would prefer the comforts of the [housing] regions.",
 			                             "Perhaps the fierce [Battlegrounds] are more to your liking or do you wish to meet the citizens inside",
-			                             "the great city of [Camelot] or the [Inconnu Crypt]?",
-			                             "Or perhaps you are interested in porting to our training camp [Holtham]?",
+			                             "the great city of [Camelot] or the [Inconnu Crypt]?\n",
+			                             "Or perhaps you are interested in porting to our training camp [Holtham]?\n",
 			                             "Or do you intend to assist our allies in [Hibernia] or [Midgard]?");
 			SayTo(player, intro);
 			return true;
