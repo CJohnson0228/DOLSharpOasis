@@ -918,6 +918,12 @@ namespace DOL.GS.PacketHandler
 				return;
 
 			int code = packet.ID;
+			
+			// Log ALL packets from this player for debugging
+			if (m_client.Player != null && m_client.Player.Name == "Agrire")
+			{
+				log.InfoFormat("PACKET DEBUG: Code=0x{0:X2} Length={1}", code, packet.PacketSize);
+			}
 
 			Statistics.BytesIn += packet.PacketSize;
 			Statistics.PacketsIn++;
