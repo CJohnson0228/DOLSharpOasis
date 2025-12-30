@@ -27,8 +27,6 @@ namespace DOL.GS.PacketHandler.Client.v168
 
 		public void HandlePacket(GameClient client, GSPacketIn packet)
 		{
-			// DEBUG LOGGING
-			log.InfoFormat("HouseEdit packet received from {0}", client.Player.Name);
 			packet.ReadShort(); // playerId no use for that.
 
 			// house is null, return
