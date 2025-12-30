@@ -2129,12 +2129,16 @@ namespace DOL.GS.ServerRules
 			switch (merchantType)
 			{
 				case eMerchantWindowType.HousingInsideShop:
-				case eMerchantWindowType.HousingInsideMenu:
 					player.Out.SendMerchantWindow(HouseTemplateMgr.IndoorShopItems.Catalog, merchantType);
 					break;
+				case eMerchantWindowType.HousingInsideMenu:
+					player.Out.SendMerchantWindow(HouseTemplateMgr.IndoorMenuItems.Catalog, merchantType);
+					break;
 				case eMerchantWindowType.HousingOutsideShop:
-				case eMerchantWindowType.HousingOutsideMenu:
 					player.Out.SendMerchantWindow(HouseTemplateMgr.OutdoorShopItems.Catalog, merchantType);
+					break;
+				case eMerchantWindowType.HousingOutsideMenu:
+					player.Out.SendMerchantWindow(HouseTemplateMgr.OutdoorMenuItems.Catalog, merchantType);
 					break;
 				case eMerchantWindowType.HousingBindstoneHookpoint:
 					player.Out.SendMerchantWindow(HouseTemplateMgr.IndoorBindstoneShopItems.Catalog, merchantType);
@@ -2176,8 +2180,14 @@ namespace DOL.GS.ServerRules
 				case eMerchantWindowType.HousingInsideShop:
 					items = HouseTemplateMgr.IndoorShopItems;
 					break;
+				case eMerchantWindowType.HousingInsideMenu:
+					items = HouseTemplateMgr.IndoorMenuItems;
+					break;
 				case eMerchantWindowType.HousingOutsideShop:
 					items = HouseTemplateMgr.OutdoorShopItems;
+					break;
+				case eMerchantWindowType.HousingOutsideMenu:
+					items = HouseTemplateMgr.OutdoorMenuItems;
 					break;
 				case eMerchantWindowType.HousingBindstoneHookpoint:
 					items = HouseTemplateMgr.IndoorBindstoneShopItems;
