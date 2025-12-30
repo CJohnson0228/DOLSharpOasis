@@ -985,8 +985,11 @@ namespace DOL.GS.Housing
 				}
 			}
 
+			// Daoc Oasis - removed cost for housing materials, check unnecessary
+			// author c.m.johnson
 			// make sure player has enough money to cover the changes
-			if (!player.RemoveMoney(Currency.Copper.Mint(price)))
+			/*
+			 if (!player.RemoveMoney(Currency.Copper.Mint(price)))
 			{
                 InventoryLogging.LogInventoryAction(player, "(HOUSE;" + HouseNumber + ")", eInventoryActionType.Merchant, price);
 				ChatUtil.SendMerchantMessage(player, "House.Edit.NotEnoughMoney", null);
@@ -994,6 +997,7 @@ namespace DOL.GS.Housing
 			}
 
 			ChatUtil.SendSystemMessage(player, "House.Edit.PayForChanges", Money.GetString(price));
+			*/
 
 			// make all the changes
 			foreach (int slot in changes)
