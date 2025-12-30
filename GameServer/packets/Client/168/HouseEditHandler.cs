@@ -27,6 +27,8 @@ namespace DOL.GS.PacketHandler.Client.v168
 
 		public void HandlePacket(GameClient client, GSPacketIn packet)
 		{
+			// DEBUG LOGGING
+			log.InfoFormat("HouseEdit packet received from {0}", client.Player.Name);
 			packet.ReadShort(); // playerId no use for that.
 
 			// house is null, return
@@ -44,7 +46,7 @@ namespace DOL.GS.PacketHandler.Client.v168
 				if (swtch != 255)
 					changes.Add(change);
 			}
-
+			
 			// apply changes
 			if (changes.Count > 0)
 				house.Edit(client.Player, changes);

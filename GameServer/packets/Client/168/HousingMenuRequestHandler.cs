@@ -59,6 +59,9 @@ namespace DOL.GS.PacketHandler.Client.v168
 			int housenumber = packet.ReadShort();
 			int menuid = packet.ReadByte();
 			int flag = packet.ReadByte();
+			
+			log.InfoFormat("HousingMenuRequest: housenumber={0}, menuid={1}, flag={2} from {3}", 
+				housenumber, menuid, flag, client.Player.Name);
 
 			var house = HouseMgr.GetHouse(client.Player.CurrentRegionID, housenumber);
 			if (house == null)
