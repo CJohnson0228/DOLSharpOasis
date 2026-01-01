@@ -53,7 +53,7 @@ namespace DOL.GS.PropertyCalc
 					shieldSpec = 500;
 				}
 				int ability = player.AbilityBonus[(int)property] * 10;
-				int chance = 50 + shieldSpec + ((player.Dexterity * 2 - 100) / 4) + ability;
+				int chance = 50 + shieldSpec + ability;
 				
                 return chance;
 			}
