@@ -37,9 +37,23 @@ namespace DOL.GS.PropertyCalc
 			GamePlayer player = living as GamePlayer;
 			if (player != null)
 			{
+				int buff = player.BaseBuffBonusCategory[(int)property] * 10
+				           + player.SpecBuffBonusCategory[(int)property] * 10
+				           - player.DebuffCategory[(int)property] * 10
+				           + player.BuffBonusCategory4[(int)property] * 10
+				           + player.AbilityBonus[(int)property] * 10;
 				int shield = (player.GetModifiedSpecLevel(Specs.Shields) - 1) * (10 / 2);
+				int shieldSpec = 0;
+				if (player.HasSpecialization(Specs.Shields))
+				{					
+					shieldSpec = (player.Dexterity * 2 - 100) / 4 + shield + 50;
+				}
+				if (shieldSpec > 500)
+				{
+					shieldSpec = 500;
+				}
 				int ability = player.AbilityBonus[(int)property] * 10;
-				int chance = 50 + shield + ((player.Dexterity * 2 - 100) / 4) + ability;
+				int chance = 50 + shieldSpec + ((player.Dexterity * 2 - 100) / 4) + ability;
 				
                 return chance;
 			}
