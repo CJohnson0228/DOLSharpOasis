@@ -53,9 +53,9 @@ namespace DOL.GS.PropertyCalc
 					shieldSpec = 500;
 				}
 				int ability = player.AbilityBonus[(int)property] * 10;
-				int chance = 50 + shieldSpec + ability;
+				int blockChance = 50 + shieldSpec + ability;
 				
-                return chance;
+                return blockChance + buff;
 			}
 
 			GameNPC npc = living as GameNPC;
