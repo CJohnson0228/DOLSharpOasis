@@ -44,10 +44,11 @@ namespace DOL.GS.PropertyCalc
 				- player.DebuffCategory[(int)property] * 10
 				+ player.BuffBonusCategory4[(int)property] * 10
 				+ player.AbilityBonus[(int)property] * 10;
+				int parry = (player.GetModifiedSpecLevel(Specs.Parry) - 1) * (10 / 2);
 				int parrySpec = 0;
 				if (player.HasSpecialization(Specs.Parry))
 				{					
-					parrySpec = (player.Dexterity * 2 - 100) / 4 + (player.GetModifiedSpecLevel(Specs.Parry) - 1) * (10 / 2) + 50;
+					parrySpec = (player.Dexterity * 2 - 100) / 4 + parry + 50;
 				}
                 if (parrySpec > 500)
                 {

@@ -14900,7 +14900,7 @@ namespace DOL.GS
 		/// <summary>
 		/// The maximum champion level a player can reach
 		/// </summary>
-		public const int CL_MAX_LEVEL = 10;
+		public const int CL_MAX_LEVEL = 15;
 
 		/// <summary>
 		/// A table that holds the required XP/Level
