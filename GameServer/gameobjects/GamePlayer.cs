@@ -15054,9 +15054,10 @@ namespace DOL.GS
 		/// <param name="experience">Amount of Experience</param>
 		public virtual void GainChampionExperience(long experience, eXPSource source)
 		{
-			if (ChampionExperience >= 320000)
+			long maxChampionXP = CLXPLevel[CL_MAX_LEVEL];
+			if (ChampionExperience >= maxChampionXP)
 			{
-				ChampionExperience = 320000;
+				ChampionExperience = maxChampionXP;
 				return;
 			}
 			

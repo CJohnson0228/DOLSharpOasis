@@ -43,7 +43,7 @@ namespace DOL.GS
         
         protected override string Type
         {
-            get { return ""; }
+            get { return "Dungeon Researcher"; }
         }
         
         /// <summary>
