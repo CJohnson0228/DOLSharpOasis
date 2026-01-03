@@ -14919,10 +14919,10 @@ namespace DOL.GS
 			288000, // xp to level 9
 			320000, // xp to level 10
 			640000, // xp to level 11
-			640000, // xp to level 12
-			640000, // xp to level 13
-			640000, // xp to level 14
-			640000, // xp to level 15
+			960000, // xp to level 12
+			1280000, // xp to level 13
+			1600000, // xp to level 14
+			1920000, // xp to level 15
 		};
 
 		/// <summary>
