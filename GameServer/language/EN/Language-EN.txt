@@ -878,6 +878,11 @@ Titles.CL.Level7:					Patron of Minotaur
 Titles.CL.Level8:					Visionary
 Titles.CL.Level9:					Gladiator
 Titles.CL.Level10:					Labyrinthian
+Titles.CL.Level11:					Centurian
+Titles.CL.Level12:					Tribune
+Titles.CL.Level13:					Captain
+Titles.CL.Level14:					Commander
+Titles.CL.Level15:					Champion of the Realm
 
 # /ML
 Titles.ML.Line1:					Banelord
