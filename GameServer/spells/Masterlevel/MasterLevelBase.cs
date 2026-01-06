@@ -1340,7 +1340,7 @@ namespace DOL.GS
             this.Level = 1;
             this.MaxSpeedBase = 0;
             this.Flags |= GameNPC.eFlags.DONTSHOWNAME;
-            this.Health = this.MaxHealth;
+            // this.Health = this.MaxHealth; <-- causing a crash
         }
 
         private GamePlayer m_owner;
@@ -1394,7 +1394,7 @@ namespace DOL.GS
         {
             this.Realm = 0;
             this.Level = 1;
-            this.Health = this.MaxHealth;
+            // this.Health = this.MaxHealth; <-- causing crash
 			this.MaxSpeedBase = 0;
         }
 
