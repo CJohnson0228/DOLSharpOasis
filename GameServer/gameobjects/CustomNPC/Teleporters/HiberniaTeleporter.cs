@@ -92,7 +92,7 @@ namespace DOL.GS
 				{
 					String reply = String.Format(
 						"I can send you to the Capital city of [Camelot], {0}, {1}", 
-						"or one of the many villages such as [Adribard's Retreat], [Caer Ulfwych], [Campacorentin Station], [Cornwall Station], [Cotswald Village], or [Prydwen Keep]", 
+						"or one of the many villages such as [Adribard's Retreat], [Caer Ulfwych], [Campacorentin Station], [Cornwall Station], [Cotswold Village], or [Prydwen Keep]", 
 						"or do you prefer the areas of the Shrouded Isles, [Caer Gothwaite], [Gothwaite] Harbor, [Caer Diogel], [Wearyall Village], or [Fort Gwyntell]");
 					SayTo(player, reply);
 					return;
