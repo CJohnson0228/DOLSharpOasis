@@ -47,6 +47,14 @@ namespace DOL.GS
         }
         
         /// <summary>
+        /// Display the teleport indicator around this teleporters feet
+        /// </summary>
+        public override bool ShowTeleporterIndicator
+        {
+            get { return true; }
+        }
+        
+        /// <summary>
         /// Player right-clicked the teleporter.
         /// </summary>
         /// <param name="player"></param>
