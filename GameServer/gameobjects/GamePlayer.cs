@@ -1703,9 +1703,26 @@ namespace DOL.GS
 			Out.SendUpdatePlayer();
 			Out.SendUpdatePoints();
 
-			//Set property indicating that we are releasing to another region; used for Released event
+//Set property indicating that we are releasing to another region; used for Released event
 			if (oldRegion != CurrentRegionID)
+			{
 				TempProperties.setProperty(RELEASING_PROPERTY, true);
+    
+				// Force full client state reset when changing regions (with delay)
+				RegionTimer resetTimer = new RegionTimer(this);
+				resetTimer.Callback = new RegionTimerCallback((timer) =>
+				{
+					if (Out != null && ObjectState == eObjectState.Active)
+					{
+						Out.SendPlayerPositionAndObjectID();
+						Out.SendCharStatsUpdate();
+						Out.SendStatusUpdate();
+						UpdateEquipmentAppearance();
+					}
+					return 0; // Don't repeat
+				});
+				resetTimer.Start(500); // 500ms delay
+			}
 			else
 			{
 				// fire the player revive event
