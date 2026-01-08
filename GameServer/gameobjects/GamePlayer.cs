@@ -1700,7 +1700,7 @@ namespace DOL.GS
 			//method and added back again (if in view) with full health ... so no
 			//revive needed for others...
 			Out.SendPlayerRevive(this);
-			//			Out.SendUpdatePlayer();
+			Out.SendUpdatePlayer();
 			Out.SendUpdatePoints();
 
 			//Set property indicating that we are releasing to another region; used for Released event
