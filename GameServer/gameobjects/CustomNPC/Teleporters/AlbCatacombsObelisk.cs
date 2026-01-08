@@ -11,15 +11,26 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using DOL.GS;
-using DOL.Database;
 using System.Collections;
-using DOL.GS.Spells;
-using log4net;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+
+using DOL.AI;
+using DOL.AI.Brain;
+using DOL.Database;
+using DOL.Events;
+using DOL.GS.Effects;
+using DOL.GS.Housing;
+using DOL.GS.Movement;
 using DOL.GS.PacketHandler;
+using DOL.GS.Quests;
+using DOL.GS.Spells;
+using DOL.GS.Styles;
+using DOL.Language;
+using DOL.GS.ServerProperties;
+using DOL.GS.Finance;
+using DOL.GS.Geometry;
 
 namespace DOL.GS
 {
@@ -44,6 +55,32 @@ namespace DOL.GS
         protected override string Type
         {
             get { return "Alb Catacombs"; }
+        }
+        
+        public override void SayTo(GamePlayer target, eChatLoc loc, string message, bool announce = true)
+        {
+            if (target == null)
+                return;
+
+            // Removed: TurnTo(target); - obelisks don't turn
+    
+            string resultText = LanguageMgr.GetTranslation(target.Client.Account.Language, "GameNPC.SayTo.Says", GetName(0, true, target.Client.Account.Language, this), message);
+            switch (loc)
+            {
+                case eChatLoc.CL_PopupWindow:
+                    target.Out.SendMessage(resultText, eChatType.CT_System, eChatLoc.CL_PopupWindow);
+                    if (announce)
+                    {
+                        Message.ChatToArea(this, LanguageMgr.GetTranslation(target.Client.Account.Language, "GameNPC.SayTo.SpeaksTo", GetName(0, true, target.Client.Account.Language, this), target.GetName(0, false)), eChatType.CT_System, WorldMgr.SAY_DISTANCE, target);
+                    }
+                    break;
+                case eChatLoc.CL_ChatWindow:
+                    target.Out.SendMessage(resultText, eChatType.CT_Say, eChatLoc.CL_ChatWindow);
+                    break;
+                case eChatLoc.CL_SystemWindow:
+                    target.Out.SendMessage(resultText, eChatType.CT_System, eChatLoc.CL_SystemWindow);
+                    break;
+            }
         }
         
         /// <summary>
