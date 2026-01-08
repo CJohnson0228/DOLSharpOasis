@@ -53,6 +53,7 @@ namespace DOL.GS
         /// <returns></returns>
         public override bool Interact(GamePlayer player)
         {
+            // removed interaction statement causing obelisk to turn
             String intro = String.Format(
                 "Adventurer, the catacombs are a dangerous place, but I may be able to ease the burden of travel. {0} {1} {2} {3} {4} {5} {6} {7} {8}",
                 "Locations I can teleport your mortal body too are as follows.\n", 
