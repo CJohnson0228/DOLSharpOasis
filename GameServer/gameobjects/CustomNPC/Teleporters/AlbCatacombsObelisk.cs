@@ -58,30 +58,9 @@ namespace DOL.GS
             get { return "Alb Catacombs"; }
         }
         
-        public override void SayTo(GamePlayer target, eChatLoc loc, string message, bool announce = true)
+        public override void TurnTo(GameObject target, int duration = 0)
         {
-            if (target == null)
-                return;
-
-            // Removed: TurnTo(target); - obelisks don't turn
-    
-            string resultText = LanguageMgr.GetTranslation(target.Client.Account.Language, "GameNPC.SayTo.Says", GetName(0, true, target.Client.Account.Language, this), message);
-            switch (loc)
-            {
-                case eChatLoc.CL_PopupWindow:
-                    target.Out.SendMessage(resultText, eChatType.CT_System, eChatLoc.CL_PopupWindow);
-                    if (announce)
-                    {
-                        Message.ChatToArea(this, LanguageMgr.GetTranslation(target.Client.Account.Language, "GameNPC.SayTo.SpeaksTo", GetName(0, true, target.Client.Account.Language, this), target.GetName(0, false)), eChatType.CT_System, WorldMgr.SAY_DISTANCE, target);
-                    }
-                    break;
-                case eChatLoc.CL_ChatWindow:
-                    target.Out.SendMessage(resultText, eChatType.CT_Say, eChatLoc.CL_ChatWindow);
-                    break;
-                case eChatLoc.CL_SystemWindow:
-                    target.Out.SendMessage(resultText, eChatType.CT_System, eChatLoc.CL_SystemWindow);
-                    break;
-            }
+            // Obelisks don't turn - intentionally empty
         }
         
         /// <summary>
