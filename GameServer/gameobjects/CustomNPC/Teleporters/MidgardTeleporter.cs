@@ -223,6 +223,8 @@ namespace DOL.GS
 					break;
 				case "cornwall station":
 					break;
+				case "cotswold village":
+					break;
 				case "cotswald village":
 					break;
 				case "prydwen keep":
