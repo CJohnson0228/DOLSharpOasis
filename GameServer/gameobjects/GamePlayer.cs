@@ -1693,43 +1693,21 @@ namespace DOL.GS
 
 			//Call MoveTo after new GameGravestone(this...
 			//or the GraveStone will be located at the player's bindpoint
-
+			
 			MoveTo(releasePosition);
+			//It is enough if we revive the player on this client only here
+			//because for other players the player will be removed in the MoveTo
+			//method and added back again (if in view) with full health ... so no
+			//revive needed for others...
+			Out.SendPlayerRevive(this);
+			//			Out.SendUpdatePlayer();
+			Out.SendUpdatePoints();
 
 			//Set property indicating that we are releasing to another region; used for Released event
 			if (oldRegion != CurrentRegionID)
-			{
 				TempProperties.setProperty(RELEASING_PROPERTY, true);
-    
-				// Create a one-time event handler that fires when entering the new region
-				DOLEventHandler regionEnteredHandler = null;
-				regionEnteredHandler = new DOLEventHandler((e, sender, args) =>
-				{
-					// Remove this handler after it fires once
-					GameEventMgr.RemoveHandler(this, GamePlayerEvent.RegionEnter, regionEnteredHandler);
-        
-					// NOW send the revive packets after region is fully loaded
-					if (Out != null && ObjectState == eObjectState.Active)
-					{
-						Out.SendPlayerRevive(this);
-						Out.SendUpdatePlayer();
-						Out.SendUpdatePoints();
-						Out.SendPlayerJump(false);
-						Out.SendCharStatsUpdate();
-						UpdateEquipmentAppearance();
-					}
-				});
-    
-				// Register the handler
-				GameEventMgr.AddHandler(this, GamePlayerEvent.RegionEnter, regionEnteredHandler);
-			}
 			else
 			{
-				// Same region - send revive packets immediately
-				Out.SendPlayerRevive(this);
-				Out.SendUpdatePlayer();
-				Out.SendUpdatePoints();
-    
 				// fire the player revive event
 				Notify(GamePlayerEvent.Revive, this);
 				Notify(GamePlayerEvent.Released, this);
