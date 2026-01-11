@@ -260,7 +260,7 @@ namespace DOL.GS
                     }
                     else
                         myItem = new GameStaticItem();
-
+                    myItem.LoadFromDatabase(itemclone); 
                     myItem.AddToWorld();
                 }
             }
