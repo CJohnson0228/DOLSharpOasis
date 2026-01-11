@@ -10283,14 +10283,23 @@ namespace DOL.GS
 			set { m_areaUpdateTick = value; }
 		}
 
-        public override Position Position
-        {
-            set
-            {
-                base.Position = value;
-                if(DBCharacter != null) DBCharacter.SetPosition(value);
-            }
-        }
+		public override Position Position
+		{
+			get => base.Position;
+			set
+			{
+				// If we're currently in an instance and the new position
+				// has the skin ID instead of the instance ID, correct it
+				if (CurrentRegion is BaseInstance instance && value.RegionID == instance.Skin)
+				{
+					// Client sent position with skin ID, correct it to instance ID
+					value = value.With(regionID: instance.ID);
+				}
+        
+				base.Position = value;
+				if(DBCharacter != null) DBCharacter.SetPosition(value);
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the current speed of this player
@@ -10316,22 +10325,6 @@ namespace DOL.GS
 			{
 				base.CurrentRegion = value;
 				if (DBCharacter != null) DBCharacter.Region = CurrentRegionID;
-			}
-		}
-		
-		public override Position Position
-		{
-			get => base.Position;
-			set
-			{
-				// If we're currently in an instance and the new position
-				// has the skin ID instead of the instance ID, correct it
-				if (CurrentRegion is BaseInstance instance && value.RegionID == instance.Skin)
-				{
-					// Client sent position with skin ID, correct it to instance ID
-					value = value.With(regionID: instance.ID);
-				}
-				base.Position = value;
 			}
 		}
 		
