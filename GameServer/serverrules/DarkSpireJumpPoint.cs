@@ -57,9 +57,6 @@ namespace DOL.GS.ServerRules
             {
                 instance.DestroyWhenEmpty = false;
         
-                // CRITICAL: Start the instance region manager
-                instance.Start();
-        
                 activeInstances[key] = instance;
                 log.InfoFormat("Created new DarkSpire instance {0} for {1}", instance.ID, key);
             }
