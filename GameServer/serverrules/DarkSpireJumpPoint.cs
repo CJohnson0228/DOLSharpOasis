@@ -34,7 +34,7 @@ namespace DOL.GS.ServerRules
         private DarkSpireInstance GetDarkSpireInstance(GamePlayer player)
         {
             string key = player.Group != null ? "group_" + player.Group.GetHashCode() : "player_" + player.InternalID;
-            
+    
             // Check if instance already exists and is valid
             if (activeInstances.ContainsKey(key))
             {
@@ -49,19 +49,21 @@ namespace DOL.GS.ServerRules
                     activeInstances.Remove(key);
                 }
             }
-            
+    
             // Create new instance
             DarkSpireInstance instance = (DarkSpireInstance)WorldMgr.CreateInstance(69, typeof(DarkSpireInstance));
-            
+    
             if (instance != null)
             {
-                // CRITICAL: Prevent immediate destruction
                 instance.DestroyWhenEmpty = false;
-                
+        
+                // CRITICAL: Start the instance region manager
+                instance.Start();
+        
                 activeInstances[key] = instance;
                 log.InfoFormat("Created new DarkSpire instance {0} for {1}", instance.ID, key);
             }
-            
+    
             return instance;
         }
     }
