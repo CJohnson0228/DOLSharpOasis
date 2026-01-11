@@ -18,11 +18,18 @@ namespace DOL.GS
             DestroyWhenEmpty = false;
         }
 
+        public override void OnPlayerEnterInstance(GamePlayer player)
+        {
+            base.OnPlayerEnterInstance(player);
+            player.Out.SendMessage("You have entered DarkSpire instance " + ID + "!", eChatType.CT_System, eChatLoc.CL_SystemWindow);
+            log.InfoFormat("Player {0} entered DarkSpire instance {1}, PlayersInInstance now = {2}", player.Name, ID, PlayersInInstance);
+        }
+
         public override void OnPlayerLeaveInstance(GamePlayer player)
         {
             base.OnPlayerLeaveInstance(player);
+            log.InfoFormat("Player {0} left DarkSpire instance {1}, PlayersInInstance now = {2}", player.Name, ID, PlayersInInstance);
     
-            // When last player leaves, start 5 minute countdown to destruction
             if (PlayersInInstance == 0)
             {
                 log.InfoFormat("DarkSpire instance {0} is now empty, will destroy in 5 minutes", ID);
@@ -43,12 +50,6 @@ namespace DOL.GS
             }
             
             log.InfoFormat("DarkSpire instance {0} loaded with {1} mobs (no respawn)", ID, mobCount);
-        }
-
-        public override void OnPlayerEnterInstance(GamePlayer player)
-        {
-            base.OnPlayerEnterInstance(player);
-            player.Out.SendMessage("You have entered the DarkSpire!", eChatType.CT_System, eChatLoc.CL_SystemWindow);
         }
     }
 }
