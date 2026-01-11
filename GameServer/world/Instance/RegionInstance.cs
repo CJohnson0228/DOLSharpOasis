@@ -297,40 +297,61 @@ namespace DOL.GS
             }
             
             // Load doors for instance
-            var doorObjs = DOLDB<DBDoor>.SelectObjects(DB.Column("InternalID").IsGreaterOrEqualTo(Skin * 1000000).And(DB.Column("InternalID").IsLessThan((Skin + 1) * 1000000)));
+			log.Info($"[DOOR DEBUG] Starting door load for instance {this.ID}, skin {this.Skin}");
+			log.Info($"[DOOR DEBUG] Instance has {this.Zones.Count} zones");
 
-            foreach (DBDoor door in doorObjs)
-            {
-	            DBDoor doorClone = (DBDoor)door.Clone();
-	            doorClone.AllowAdd = false;
-	            doorClone.AllowDelete = false;
-                
-	            // Calculate the zone offset and create instance zone ID
-	            ushort originalZone = (ushort)(door.InternalID / 1000000);
-	            ushort doorSubId = (ushort)(door.InternalID % 1000000);
-                
-	            // Find the corresponding zone in this instance
-	            Zone instanceZone = null;
-	            foreach (Zone z in Zones)
-	            {
-		            if (z.ZoneSkinID == originalZone)
-		            {
+			var doorObjs = DOLDB<DBDoor>.SelectObjects(DB.Column("InternalID").IsGreaterOrEqualTo(Skin * 1000000).And(DB.Column("InternalID").IsLessThan((Skin + 1) * 1000000)));
+			log.Info($"[DOOR DEBUG] Found {doorObjs.Count} doors in database for skin {Skin}");
+
+			foreach (DBDoor door in doorObjs)
+			{
+			    log.Info($"[DOOR DEBUG] Processing door InternalID={door.InternalID}, Name={door.Name}");
+			    
+			    DBDoor doorClone = (DBDoor)door.Clone();
+			    doorClone.AllowAdd = false;
+			    doorClone.AllowDelete = false;
+			    
+			    // Calculate the zone offset and create instance zone ID
+			    ushort originalZone = (ushort)(door.InternalID / 1000000);
+			    ushort doorSubId = (ushort)(door.InternalID % 1000000);
+			    
+			    log.Info($"[DOOR DEBUG] Original zone={originalZone}, doorSubId={doorSubId}");
+			    
+			    // Find the corresponding zone in this instance
+			    Zone instanceZone = null;
+			    foreach (Zone z in Zones)
+			    {
+			        log.Info($"[DOOR DEBUG] Checking zone ID={z.ID}, ZoneSkinID={z.ZoneSkinID}");
+			        if (z.ZoneSkinID == originalZone)
+			        {
 			            instanceZone = z;
+			            log.Info($"[DOOR DEBUG] Found matching zone! Instance zone ID={z.ID}");
 			            break;
-		            }
-	            }
-                
-	            if (instanceZone != null)
-	            {
-		            doorClone.InternalID = instanceZone.ID * 1000000 + doorSubId;
-                    
-		            IDoor mydoor = new GameDoor();
-		            mydoor.LoadFromDatabase(doorClone);
-                    
-		            // Doors don't have AddToWorld, they're registered directly
-		            DoorMgr.RegisterDoor(mydoor);
-	            }
-            }
+			        }
+			    }
+			    
+			    if (instanceZone != null)
+			    {
+			        doorClone.InternalID = instanceZone.ID * 1000000 + doorSubId;
+			        log.Info($"[DOOR DEBUG] New InternalID={doorClone.InternalID}");
+			        
+			        // Test if WorldMgr can find this zone
+			        Zone testZone = WorldMgr.GetZone((ushort)(doorClone.InternalID / 1000000));
+			        log.Info($"[DOOR DEBUG] WorldMgr.GetZone test: {(testZone != null ? "SUCCESS" : "FAILED")}");
+			        
+			        IDoor mydoor = new GameDoor();
+			        mydoor.LoadFromDatabase(doorClone);
+			        
+			        DoorMgr.RegisterDoor(mydoor);
+			        log.Info($"[DOOR DEBUG] Door registered successfully");
+			    }
+			    else
+			    {
+			        log.Warn($"[DOOR DEBUG] Could not find instance zone for original zone {originalZone}");
+			    }
+			}
+
+			log.Info($"[DOOR DEBUG] Door loading complete");
             
             if (myMobCount + myItemCount + myMerchantCount > 0)
             {
