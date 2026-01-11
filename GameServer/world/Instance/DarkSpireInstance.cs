@@ -14,7 +14,20 @@ namespace DOL.GS
         public DarkSpireInstance(ushort ID, GameTimer.TimeManager time, RegionData data)
             : base(ID, time, data)
         {
-            DestroyWhenEmpty = true;
+            // Don't destroy immediately when empty
+            DestroyWhenEmpty = false;
+        }
+
+        public override void OnPlayerLeaveInstance(GamePlayer player)
+        {
+            base.OnPlayerLeaveInstance(player);
+    
+            // When last player leaves, start 5 minute countdown to destruction
+            if (PlayersInInstance == 0)
+            {
+                log.InfoFormat("DarkSpire instance {0} is now empty, will destroy in 5 minutes", ID);
+                BeginDelayCloseCountdown(5);
+            }
         }
 
         public override void LoadFromDatabase(Mob[] mobObjs, ref long mobCount, ref long merchantCount, ref long itemCount, ref long bindCount)
