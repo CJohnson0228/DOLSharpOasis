@@ -51,5 +51,15 @@ namespace DOL.GS
             
             log.InfoFormat("DarkSpire instance {0} loaded with {1} mobs (no respawn)", ID, mobCount);
         }
+        
+        public override bool OnInstanceDoor(GamePlayer player, ZonePoint zonePoint)
+        {
+            // Log what's happening
+            log.InfoFormat("DarkSpire instance {0}: Player {1} using zonepoint {2} to region {3}", 
+                ID, player.Name, zonePoint.Id, zonePoint.TargetRegion);
+    
+            // Allow the exit to proceed normally
+            return true;
+        }
     }
 }
