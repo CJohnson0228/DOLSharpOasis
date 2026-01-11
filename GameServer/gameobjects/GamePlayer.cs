@@ -10319,6 +10319,22 @@ namespace DOL.GS
 			}
 		}
 		
+		public override Position Position
+		{
+			get => base.Position;
+			set
+			{
+				// If we're currently in an instance and the new position
+				// has the skin ID instead of the instance ID, correct it
+				if (CurrentRegion is BaseInstance instance && value.RegionID == instance.Skin)
+				{
+					// Client sent position with skin ID, correct it to instance ID
+					value = value.With(regionID: instance.ID);
+				}
+				base.Position = value;
+			}
+		}
+		
 		// Add after the CurrentRegion property (around line 10320)
 		public override ushort CurrentRegionID
 		{
