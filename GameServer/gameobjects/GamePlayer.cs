@@ -10327,37 +10327,6 @@ namespace DOL.GS
 				if (DBCharacter != null) DBCharacter.Region = CurrentRegionID;
 			}
 		}
-		
-		// Add after the CurrentRegion property (around line 10320)
-		public override ushort CurrentRegionID
-		{
-			get
-			{
-				// For instances, ensure we return the actual instance ID, not the skin
-				if (CurrentRegion is BaseInstance instance)
-				{
-					return instance.ID;
-				}
-				// Otherwise use the position's region ID
-				return base.CurrentRegionID;
-			}
-			set
-			{
-				// When setting CurrentRegionID, update the position
-				// But if we're in an instance, make sure we use the instance ID
-				Region region = WorldMgr.GetRegion(value);
-				if (region is BaseInstance instance)
-				{
-					// Setting to an instance - use the instance ID
-					Position = Position.With(regionID: instance.ID);
-				}
-				else
-				{
-					// Normal region
-					Position = Position.With(regionID: value);
-				}
-			}
-		}
 
 		/// <summary>
 		/// Holds the zone player was in after last position update

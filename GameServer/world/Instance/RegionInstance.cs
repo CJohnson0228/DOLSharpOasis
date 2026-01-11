@@ -296,6 +296,42 @@ namespace DOL.GS
 
             }
             
+            // Load doors for instance
+            var doorObjs = DOLDB<DBDoor>.SelectObjects(DB.Column("InternalID").IsGreaterOrEqualTo(Skin * 1000000).And(DB.Column("InternalID").IsLessThan((Skin + 1) * 1000000)));
+
+            foreach (DBDoor door in doorObjs)
+            {
+	            DBDoor doorClone = (DBDoor)door.Clone();
+	            doorClone.AllowAdd = false;
+	            doorClone.AllowDelete = false;
+                
+	            // Calculate the zone offset and create instance zone ID
+	            ushort originalZone = (ushort)(door.InternalID / 1000000);
+	            ushort doorSubId = (ushort)(door.InternalID % 1000000);
+                
+	            // Find the corresponding zone in this instance
+	            Zone instanceZone = null;
+	            foreach (Zone z in Zones)
+	            {
+		            if (z.ZoneSkinID == originalZone)
+		            {
+			            instanceZone = z;
+			            break;
+		            }
+	            }
+                
+	            if (instanceZone != null)
+	            {
+		            doorClone.InternalID = instanceZone.ID * 1000000 + doorSubId;
+                    
+		            IDoor mydoor = new GameDoor();
+		            mydoor.LoadFromDatabase(doorClone);
+                    
+		            // Doors don't have AddToWorld, they're registered directly
+		            DoorMgr.RegisterDoor(mydoor);
+	            }
+            }
+            
             if (myMobCount + myItemCount + myMerchantCount > 0)
             {
                 if (log.IsInfoEnabled)
