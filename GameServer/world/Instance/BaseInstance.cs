@@ -249,8 +249,32 @@ namespace DOL.GS
         /// <returns>True if the player should be moved to default locations.</returns>
         public virtual bool OnInstanceDoor(GamePlayer player, ZonePoint zonePoint)
         {
-            //zone point ID is also used for larger instances, eg Jordheim, with multiple exits.
-            return true;
+	        //zone point ID is also used for larger instances, eg Jordheim, with multiple exits.
+    
+	        // Get the target position from the zone point
+	        Position targetPosition = zonePoint.GetTargetPosition();
+    
+	        // Check if this zone point is an exit (target region different from our skin)
+	        // If target matches our skin, it's an internal door; otherwise it's an exit
+	        if (zonePoint.TargetRegion != this.Skin)
+	        {
+		        // This is an exit from the instance
+		        // Manually handle the transition to ensure proper region cleanup
+		        // and avoid OID conflicts caused by skin/instance ID confusion
+        
+		        log.Info($"Instance exit: Player {player.Name} leaving instance {this.Description} (ID:{this.ID}, Skin:{this.Skin}) to region {targetPosition.RegionID}");
+        
+		        // MoveTo will handle the full RemoveFromWorld/AddToWorld cycle
+		        // and will properly call OnPlayerLeaveInstance
+		        player.MoveTo(targetPosition);
+        
+		        // Return false to prevent default zone point handling
+		        // (which would cause a second transition attempt with wrong region IDs)
+		        return false;
+	        }
+    
+	        // Internal door within the instance - use default behavior
+	        return true;
         }
 
         /// <summary>
