@@ -413,4 +413,25 @@ namespace DOL.GS
 			}
 		}
 	}
+	/// <summary>
+	/// Door inside an instance - reports skin zone to client
+	/// </summary>
+	public class GameInstanceDoor : GameDoor
+	{
+		/// <summary>
+		/// Override ZoneID to return the ZoneSkinID for client compatibility
+		/// The client doesn't know about instance zones, so we send the skin zone
+		/// </summary>
+		public override ushort ZoneID
+		{
+			get 
+			{
+				if (CurrentZone != null)
+				{
+					return CurrentZone.ZoneSkinID;
+				}
+				return base.ZoneID;
+			}
+		}
+	}
 }

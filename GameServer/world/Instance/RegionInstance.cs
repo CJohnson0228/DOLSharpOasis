@@ -339,7 +339,7 @@ namespace DOL.GS
 			        Zone testZone = WorldMgr.GetZone((ushort)(doorClone.InternalID / 1000000));
 			        log.Info($"[DOOR DEBUG] WorldMgr.GetZone test: {(testZone != null ? "SUCCESS" : "FAILED")}");
 			        
-			        IDoor mydoor = new GameDoor();
+			        IDoor mydoor = new GameInstanceDoor();
 			        mydoor.LoadFromDatabase(doorClone);
 			        
 			        DoorMgr.RegisterDoor(mydoor);
