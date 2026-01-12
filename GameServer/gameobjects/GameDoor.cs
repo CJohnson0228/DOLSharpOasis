@@ -418,9 +418,32 @@ namespace DOL.GS
 	/// </summary>
 	public class GameInstanceDoor : GameDoor
 	{
+		private BaseInstance m_instanceRegion;
+    
+		/// <summary>
+		/// Set the instance region before loading
+		/// </summary>
+		public void SetInstanceRegion(BaseInstance instance)
+		{
+			m_instanceRegion = instance;
+		}
+    
+		/// <summary>
+		/// Override to set correct instance region
+		/// </summary>
+		public override void LoadFromDatabase(DataObject obj)
+		{
+			base.LoadFromDatabase(obj);
+        
+			// After base loading, override the CurrentRegion to point to the instance
+			if (m_instanceRegion != null)
+			{
+				this.CurrentRegion = m_instanceRegion;
+			}
+		}
+    
 		/// <summary>
 		/// Override ZoneID to return the ZoneSkinID for client compatibility
-		/// The client doesn't know about instance zones, so we send the skin zone
 		/// </summary>
 		public override ushort ZoneID
 		{

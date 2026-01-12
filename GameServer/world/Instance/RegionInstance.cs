@@ -332,22 +332,14 @@ namespace DOL.GS
 			    
 			    if (instanceZone != null)
 			    {
-			        doorClone.InternalID = instanceZone.ID * 1000000 + doorSubId;
-			        log.Info($"[DOOR DEBUG] New InternalID={doorClone.InternalID}");
-			        
-			        // Test if WorldMgr can find this zone
-			        Zone testZone = WorldMgr.GetZone((ushort)(doorClone.InternalID / 1000000));
-			        log.Info($"[DOOR DEBUG] WorldMgr.GetZone test: {(testZone != null ? "SUCCESS" : "FAILED")}");
-			        
-			        IDoor mydoor = new GameInstanceDoor();
-			        mydoor.LoadFromDatabase(doorClone);
-			        
-			        DoorMgr.RegisterDoor(mydoor);
-			        log.Info($"[DOOR DEBUG] Door registered successfully");
-			    }
-			    else
-			    {
-			        log.Warn($"[DOOR DEBUG] Could not find instance zone for original zone {originalZone}");
+				    // Don't change InternalID - keep original skin-based ID for client lookups
+				    // doorClone.InternalID = instanceZone.ID * 1000000 + doorSubId;  // REMOVE THIS LINE
+    
+				    GameInstanceDoor mydoor = new GameInstanceDoor();
+				    mydoor.SetInstanceRegion(this);  // Set instance BEFORE loading
+				    mydoor.LoadFromDatabase(doorClone);
+    
+				    DoorMgr.RegisterDoor(mydoor);
 			    }
 			}
 
