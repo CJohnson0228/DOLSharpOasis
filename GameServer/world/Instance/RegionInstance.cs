@@ -264,7 +264,30 @@ namespace DOL.GS
                     myItem.AddToWorld();
                 }
             }
-
+            
+            // Load doors for instance
+            var instanceDoors = DOLDB<DBDoor>.SelectObjects(DB.Column("InternalID").IsGreaterOrEqualTo(Skin * 1000000).And(DB.Column("InternalID").IsLessThan((Skin + 1) * 1000000)));
+            
+            int doorCount = 0;
+            foreach (DBDoor door in instanceDoors)
+            {
+	            DBDoor doorClone = (DBDoor)door.Clone();
+	            doorClone.AllowAdd = false;
+	            doorClone.AllowDelete = false;
+                
+	            // Create door object but keep original InternalID for client compatibility
+	            GameDoor mydoor = new GameDoor();
+	            mydoor.LoadFromDatabase(doorClone);
+                
+	            // Manually set the region to this instance AFTER loading
+	            // This is critical - LoadFromDatabase sets CurrentRegion based on zone lookup
+	            mydoor.CurrentRegion = this;
+                
+	            // Register with original skin-based ID so client can find it
+	            DoorMgr.RegisterDoor(mydoor);
+	            doorCount++;
+            }
+            
             int areaCnt = 0;
             // Add missing area
             foreach(DBArea area in areaObjs) 
