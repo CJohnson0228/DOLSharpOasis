@@ -3055,6 +3055,8 @@ namespace DOL.GS.Spells
 		/// </summary>
 		/// <param name="target">the target of the spell</param>
 		/// <returns>chance that spell will be resisted for specific target</returns>
+		/// updated spell resists chance to compensate for excessive resists
+		/// during gameplay === C.Meyer.Johnson
 		public virtual int CalculateSpellResistChance(GameLiving target)
 		{
 			if (m_spellLine.KeyName == GlobalSpellsLines.Combat_Styles_Effect || HasPositiveEffect)
@@ -3068,7 +3070,7 @@ namespace DOL.GS.Spells
 				if (playerCaster != null)
 				{
 					int itemSpellLevel = m_spellItem.Template.LevelRequirement > 0 ? m_spellItem.Template.LevelRequirement : Math.Min(playerCaster.MaxLevel, m_spellItem.Level);
-					return 100 - (85 + ((itemSpellLevel - target.Level) / 2));
+					return 100 - (88 + ((itemSpellLevel - target.Level) / 3));
 				}
 			}
 
