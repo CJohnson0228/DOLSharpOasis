@@ -3606,7 +3606,7 @@ namespace DOL.GS
 			    (int)(0.90 * ((GamePlayer)ad.Attacker).Group.Leader.Level) >= ad.Attacker.Level &&
 			    ad.Attacker.IsWithinRadius(((GamePlayer)ad.Attacker).Group.Leader, 3000))
 			{
-				missrate -= (int)(5 * ((GamePlayer)ad.Attacker).Group.Leader.GetConLevel(this));
+				missrate -= (int)(1 * ((GamePlayer)ad.Attacker).Group.Leader.GetConLevel(this));
 			}
 			else if (this is GameNPC || ad.Attacker is GameNPC) // if target is not player use level mod
 			{
