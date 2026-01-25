@@ -3492,7 +3492,7 @@ namespace DOL.GS
 						else
 							guardchance = guard.GuardSource.GetModified(eProperty.BlockChance) * leftHand.Quality * 0.00001;
 						guardchance *= guardLevel * 0.3 + 0.05;
-						guardchance += attackerConLevel * 0.05;
+						guardchance += attackerConLevel * 0.01;
 						int shieldSize = 0;
 						if (leftHand != null)
 							shieldSize = leftHand.Type_Damage;
@@ -3541,7 +3541,7 @@ namespace DOL.GS
 						int guardLevel = dashing.GuardSource.GetAbilityLevel(Abilities.Guard); // multiply by 3 to be a bit qorse than block (block woudl be 5 since you get guard I with shield 5, guard II with shield 10 and guard III with shield 15)
 						double guardchance = dashing.GuardSource.GetModified(eProperty.BlockChance) * leftHand.Quality * 0.00001;
 						guardchance *= guardLevel * 0.25 + 0.05;
-						guardchance += attackerConLevel * 0.05;
+						guardchance += attackerConLevel * 0.01;
 
 						if (guardchance > 0.99) guardchance = 0.99;
 						if (guardchance < 0.01) guardchance = 0.01;
@@ -3558,7 +3558,7 @@ namespace DOL.GS
 						if (parrychance != double.MinValue)
 						{
 							parrychance *= 0.001;
-							parrychance += 0.05 * attackerConLevel;
+							parrychance += 0.01 * attackerConLevel;
 							if (parrychance > 0.99) parrychance = 0.99;
 							if (parrychance < 0.01) parrychance = 0.01;
 							if (m_attackers.Count > 1) parrychance /= m_attackers.Count / 2;
@@ -3583,7 +3583,7 @@ namespace DOL.GS
 						if (parrychance != double.MinValue)
 						{
 							parrychance *= 0.001;
-							parrychance += 0.05 * attackerConLevel;
+							parrychance += 0.01 * attackerConLevel;
 							if (parrychance > 0.99) parrychance = 0.99;
 							if (parrychance < 0.01) parrychance = 0.01;
 							if (m_attackers.Count > 1) parrychance /= m_attackers.Count / 2;
@@ -3867,7 +3867,7 @@ namespace DOL.GS
 						parryChance /= attackerCount / 2;
 
 					parryChance *= 0.001;
-					parryChance += 0.05 * attackerConLevel;
+					parryChance += 0.01 * attackerConLevel;
 
 					if( parryChance < 0.01 )
 						parryChance = 0.01;
@@ -3946,7 +3946,7 @@ namespace DOL.GS
 				// no chance bonus with ranged attacks?
 				//					if (ad.Attacker.ActiveWeaponSlot == GameLiving.eActiveWeaponSlot.Distance)
 				//						blockChance += 0.25;
-				blockChance += attackerConLevel * 0.05;
+				blockChance += attackerConLevel * 0.01;
 
 				if (blockChance < 0.01)
 					blockChance = 0.01;

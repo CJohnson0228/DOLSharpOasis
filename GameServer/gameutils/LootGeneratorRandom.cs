@@ -130,7 +130,7 @@ namespace DOL.GS
 						}
 					case eRealm.Midgard:
 						{
-							int index = Math.Min(m_itemTemplatesHib.Length - 1, mob.Level / LEVEL_RANGE);
+							int index = Math.Min(m_itemTemplatesMid.Length - 1, mob.Level / LEVEL_RANGE);
 							itemTemplates = m_itemTemplatesMid[index];
 							break;
 						}
