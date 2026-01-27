@@ -577,6 +577,11 @@ namespace DOL.GS
 					return false;
 				
 				//---------------------------------------------------------------
+				//Try to initialize the PseudoInstanceManager
+				if (!InitComponent(PseudoInstanceManager.Init(), "Pseudo-Instance Manager Initialization"))
+					return false;
+				
+				//---------------------------------------------------------------
 				//Try to initialize the PlayerManager
 				if (!InitComponent(() => PlayerManager = new PlayerManager(this), "Player Manager Initialization"))
 					return false;
