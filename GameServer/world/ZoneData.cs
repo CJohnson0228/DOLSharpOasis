@@ -31,6 +31,9 @@ namespace DOL.GS
     {
         public ushort ZoneID
         { get { return m_ZoneID; } set { m_ZoneID = value; } }
+        
+        public ushort ZoneSkinID
+        { get { return m_ZoneSkinID; } set { m_ZoneSkinID = value; } }
 
         public ushort RegionID
         { get { return m_RegionID; } set { m_RegionID = value; } }
@@ -65,5 +68,6 @@ namespace DOL.GS
         private int m_waterLevel;
 		private byte m_divingFlag;
         private bool m_IsLava;
+        private ushort m_ZoneSkinID;
     }
 }

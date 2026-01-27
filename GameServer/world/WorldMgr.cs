@@ -456,6 +456,7 @@ namespace DOL.GS
 				zoneData.Description = dbZone.Name;
 				zoneData.RegionID = dbZone.RegionID;
 				zoneData.ZoneID = (ushort)dbZone.ZoneID;
+				zoneData.ZoneSkinID = dbZone.ZoneSkinID > 0 ? (ushort)dbZone.ZoneSkinID : zoneData.ZoneID;
 				zoneData.WaterLevel = dbZone.WaterLevel;
 				zoneData.DivingFlag = dbZone.DivingFlag;
 				zoneData.IsLava = dbZone.IsLava;
@@ -899,7 +900,7 @@ namespace DOL.GS
 			                     zoneData.OffY * 8192,
 			                     zoneData.Width * 8192,
 			                     zoneData.Height * 8192,
-			                     zoneData.ZoneID,
+			                     zoneData.ZoneSkinID,
 			                     isDivingEnabled,
 			                     zoneData.WaterLevel,
 			                     zoneData.IsLava,

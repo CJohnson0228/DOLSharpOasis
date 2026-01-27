@@ -44,10 +44,12 @@ namespace DOL
 			private int m_bonusBP;
 			private int m_bonusCoin;
             private byte m_realm;
+            private int m_zoneSkinID;
 
 			public Zones()
 			{
 				m_zoneID = 0;
+                m_zoneSkinID = 0;
 				m_zoneName = string.Empty;
 				m_width = 0;
 				m_height = 0;
@@ -76,6 +78,19 @@ namespace DOL
 				{
 					Dirty = true;
 					m_zoneID = value;
+				}
+			}
+			[DataElement(AllowDbNull = true)]
+			public int ZoneSkinID
+			{
+				get
+				{
+					return m_zoneSkinID;
+				}
+				set
+				{
+					Dirty = true;
+					m_zoneSkinID = value;
 				}
 			}
 			[DataElement(AllowDbNull = false, Index = true)]
