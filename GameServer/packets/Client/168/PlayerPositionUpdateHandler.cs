@@ -130,6 +130,25 @@ namespace DOL.GS.PacketHandler.Client.v168
 				return; // TODO: what should we do? player lost in space
 			}
 
+			// Pseudo-instance fix: If the zone found is in a different region than the player,
+			// the client is sending the ZoneSkinID (e.g., 397) but player is in a copy region (e.g., 3970).
+			// Find the corresponding zone in the player's actual region.
+			if (newZone.ZoneRegion.ID != client.Player.CurrentRegionID)
+			{
+				Region playerRegion = client.Player.CurrentRegion;
+				if (playerRegion != null)
+				{
+					foreach (Zone z in playerRegion.Zones)
+					{
+						if (z.ZoneSkinID == currentZoneID)
+						{
+							newZone = z;
+							break;
+						}
+					}
+				}
+			}
+
 			// move to bind if player fell through the floor
 			if (realZ == 0)
 			{
@@ -798,6 +817,25 @@ namespace DOL.GS.PacketHandler.Client.v168
 				}
 
 				return; // TODO: what should we do? player lost in space
+			}
+			
+			// Pseudo-instance fix: If the zone found is in a different region than the player,
+			// the client is sending the ZoneSkinID (e.g., 397) but player is in a copy region (e.g., 3970).
+			// Find the corresponding zone in the player's actual region.
+			if (newZone.ZoneRegion.ID != client.Player.CurrentRegionID)
+			{
+				Region playerRegion = client.Player.CurrentRegion;
+				if (playerRegion != null)
+				{
+					foreach (Zone z in playerRegion.Zones)
+					{
+						if (z.ZoneSkinID == currentZoneID)
+						{
+							newZone = z;
+							break;
+						}
+					}
+				}
 			}
 
 			// move to bind if player fell through the floor
