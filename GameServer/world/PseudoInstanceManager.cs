@@ -24,6 +24,7 @@ using System.Reflection;
 using System.Timers;
 using DOL.Database;
 using DOL.Events;
+using DOL.GS.Geometry;
 using DOL.GS.PacketHandler;
 using log4net;
 
@@ -73,7 +74,7 @@ namespace DOL.GS
         // State tracking per copy region
         private static readonly Dictionary<ushort, eCopyState> m_copyStates = new Dictionary<ushort, eCopyState>();
         
-        // Player/Group to copy assignnment (key = player InternalID or group leader InternalID)
+        // Player/Group to copy assignment (key = player InternalID or group leader InternalID)
         private static readonly Dictionary<string, ushort> m_assignments = new Dictionary<string, ushort>();
         
         // Reset timers per copy region
@@ -90,14 +91,13 @@ namespace DOL.GS
             try
             {
                 // Load all configurations from database
-                // need to work with claude tomorrow to create DBPseudoInstanceConfig class
                 var configs = GameServer.Database.SelectAllObjects<DBPseudoInstanceConfig>();
 
                 foreach (var dbConfig in configs)
                 {
                     if (!dbConfig.Enabled) continue;
 
-                    // Parse copy region IDs from comma-seperated string
+                    // Parse copy region IDs from comma-separated string
                     string[] parts = dbConfig.CopyRegionIDs.Split(',');
                     ushort[] copyIds = new ushort[parts.Length];
                     for (int i = 0; i < parts.Length; i++)
@@ -114,11 +114,11 @@ namespace DOL.GS
                 }
 
                 log.Info("[PseudoInstanceManager] Initialized successfully.");
-                    return true;
+                return true;
             }
             catch (Exception ex)
             {
-                log.Error("[PseudoInstanceManager] Initialization failed.]", ex);
+                log.Error("[PseudoInstanceManager] Initialization failed.", ex);
                 return false;
             }
         }
@@ -143,6 +143,10 @@ namespace DOL.GS
                     if (region != null)
                     {
                         GameEventMgr.AddHandler(region, RegionEvent.PlayerLeave, new DOLEventHandler(OnPlayerLeaveRegion));
+                        
+                        // Load doors from base region into this copy region
+                        LoadDoorsForCopyRegion(config.BaseRegionID, copyId);
+                        
                         log.Info($"[PseudoInstanceManager] Registered copy region {copyId} for {config.DungeonName}");
                     }
                     else
@@ -150,6 +154,90 @@ namespace DOL.GS
                         log.Warn($"[PseudoInstanceManager] Region {copyId} not found during registration. Will hook when region loads.");
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Load doors from the base region into a copy region.
+        /// This creates door objects in the copy region that respond to the same door IDs
+        /// that the client sends (based on the zone skin).
+        /// </summary>
+        /// <param name="baseRegionId">The base region ID (e.g., 397)</param>
+        /// <param name="copyRegionId">The copy region ID (e.g., 3970)</param>
+        private static void LoadDoorsForCopyRegion(ushort baseRegionId, ushort copyRegionId)
+        {
+            try
+            {
+                Region copyRegion = WorldMgr.GetRegion(copyRegionId);
+                if (copyRegion == null)
+                {
+                    log.Error($"[PseudoInstanceManager] Cannot load doors - copy region {copyRegionId} not found");
+                    return;
+                }
+
+                // Get the base region to find its zone IDs
+                Region baseRegion = WorldMgr.GetRegion(baseRegionId);
+                if (baseRegion == null)
+                {
+                    log.Error($"[PseudoInstanceManager] Cannot load doors - base region {baseRegionId} not found");
+                    return;
+                }
+
+                int doorCount = 0;
+
+                // For each zone in the base region, find doors and create copies
+                foreach (Zone baseZone in baseRegion.Zones)
+                {
+                    ushort baseZoneId = baseZone.ID;
+                    
+                    // Query doors that belong to this zone (zone ID is embedded in InternalID)
+                    // Door InternalID format: ZZZXXXXXX where ZZZ is zone ID
+                    int minDoorId = baseZoneId * 1000000;
+                    int maxDoorId = (baseZoneId + 1) * 1000000 - 1;
+                    
+                    var doors = GameServer.Database.SelectObjects<DBDoor>(
+                        DB.Column("InternalID").IsGreaterOrEqualTo(minDoorId)
+                        .And(DB.Column("InternalID").IsLessOrEqualTo(maxDoorId)));
+
+                    foreach (DBDoor dbDoor in doors)
+                    {
+                        // Create a new door for the copy region
+                        GameDoor copyDoor = new GameDoor();
+                        
+                        // Set the door properties
+                        copyDoor.CurrentRegion = copyRegion;
+                        copyDoor.Name = dbDoor.Name;
+                        copyDoor.Position = Position.Create(
+                            regionID: copyRegionId,
+                            x: dbDoor.X,
+                            y: dbDoor.Y,
+                            z: dbDoor.Z,
+                            heading: (ushort)dbDoor.Heading
+                        );
+                        copyDoor.DoorID = dbDoor.InternalID; // Same door ID so client requests work
+                        copyDoor.GuildName = dbDoor.Guild;
+                        copyDoor.Realm = (eRealm)dbDoor.Realm;
+                        copyDoor.Level = (byte)dbDoor.Level;
+                        copyDoor.MaxHealth = dbDoor.MaxHealth;
+                        copyDoor.Health = dbDoor.Health;
+                        copyDoor.Locked = dbDoor.Locked;
+                        copyDoor.Flag = dbDoor.Flags;
+
+                        // Add to the world (this makes it visible and interactable)
+                        copyDoor.AddToWorld();
+                        
+                        // Register with DoorMgr so it can be found by door ID
+                        DoorMgr.RegisterDoor(copyDoor);
+                        
+                        doorCount++;
+                    }
+                }
+
+                log.Info($"[PseudoInstanceManager] Loaded {doorCount} doors into copy region {copyRegionId} from base region {baseRegionId}");
+            }
+            catch (Exception ex)
+            {
+                log.Error($"[PseudoInstanceManager] Error loading doors for copy region {copyRegionId}", ex);
             }
         }
 
@@ -171,7 +259,7 @@ namespace DOL.GS
                     return 0;
                 }
                 
-                // Determine the assignment key (group leader or solo  player)
+                // Determine the assignment key (group leader or solo player)
                 string assignmentKey = GetAssignmentKey(player);
                 
                 // Check if already assigned
@@ -226,9 +314,6 @@ namespace DOL.GS
         /// <summary>
         /// Called when a player leaves a region. Used to detect when players leave a copy.
         /// </summary>
-        /// <param name="e"></param>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
         private static void OnPlayerLeaveRegion(DOLEvent e, object sender, EventArgs args)
         {
             Region region = sender as Region;
@@ -242,7 +327,7 @@ namespace DOL.GS
                 if (m_copyStates.ContainsKey(regionId))
                 {
                     // Check if region is now empty (after this player leaves)
-                    // Note: NumPLayers may not be decremented yet, so check if <= 1
+                    // Note: NumPlayers may not be decremented yet, so check if <= 1
                     if (region.NumPlayers <= 1)
                     {
                         log.Info($"[PseudoInstanceManager] Copy region {regionId} is now empty. Starting reset timer.");
@@ -253,7 +338,7 @@ namespace DOL.GS
         }
 
         /// <summary>
-        /// Start the rest timer for a copy region
+        /// Start the reset timer for a copy region
         /// </summary>
         private static void StartResetTimer(ushort copyRegionId)
         {
@@ -291,7 +376,7 @@ namespace DOL.GS
         }
 
         /// <summary>
-        /// Cancel the resset timer for copy region
+        /// Cancel the reset timer for copy region
         /// </summary>
         private static void CancelResetTimer(ushort copyRegionId)
         {
@@ -395,8 +480,7 @@ namespace DOL.GS
                     npc.AddToWorld();
                 }
 
-                log.Info(
-                    $"[PseudoInstanceManager] Copy region {copyRegionId} reset complete. SPawned {mobs.Count} mobs.");
+                log.Info($"[PseudoInstanceManager] Copy region {copyRegionId} reset complete. Spawned {mobs.Count} mobs.");
 
                 lock (m_lock)
                 {
@@ -416,7 +500,7 @@ namespace DOL.GS
         /// <summary>
         /// Check if a region ID is a pseudo-instance copy
         /// </summary>
-        public static bool isPseudoInstanceCopy(ushort regionID)
+        public static bool IsPseudoInstanceCopy(ushort regionID)
         {
             lock (m_lock)
             {
@@ -431,7 +515,7 @@ namespace DOL.GS
         {
             lock (m_lock)
             {
-                if (m_copyStates.TryGetValue((copyRegionID), out eCopyState state))
+                if (m_copyStates.TryGetValue(copyRegionID, out eCopyState state))
                 {
                     return state;
                 }
