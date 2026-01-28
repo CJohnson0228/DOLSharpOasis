@@ -42,6 +42,23 @@ namespace DOL.GS.PacketHandler.Client.v168
 			var doorState = (byte) packet.ReadByte();
 			int doorType = doorID / 100000000;
 
+			// Pseudo-instance fix: If player is in a copy region (ID >= 500),
+			// translate the door ID from the skin zone to the actual zone.
+			// Client sends 397001401, but door in region 897 has ID 897001401.
+			if (client.Player.CurrentRegionID >= 500)
+			{
+				int clientZone = doorID / 1000000;           // e.g., 397
+				int baseRegion = client.Player.CurrentRegionID % 500;  // e.g., 897 % 500 = 397
+    
+				// Only translate if the client's zone matches the base region
+				if (clientZone == baseRegion)
+				{
+					int fixturePart = doorID % 1000000;      // e.g., 001401
+					doorID = client.Player.CurrentRegionID * 1000000 + fixturePart;  // e.g., 897001401
+					m_handlerDoorID = doorID;
+				}
+			}
+
 			int radius = Properties.WORLD_PICKUP_DISTANCE * 2;
 			int zoneDoor = doorID / 1000000;
 
