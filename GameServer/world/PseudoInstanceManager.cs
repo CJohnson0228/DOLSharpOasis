@@ -143,10 +143,7 @@ namespace DOL.GS
                     if (region != null)
                     {
                         GameEventMgr.AddHandler(region, RegionEvent.PlayerLeave, new DOLEventHandler(OnPlayerLeaveRegion));
-                        
-                        // Load doors from base region into this copy region
-                        LoadDoorsForCopyRegion(config.BaseRegionID, copyId);
-                        
+    
                         log.Info($"[PseudoInstanceManager] Registered copy region {copyId} for {config.DungeonName}");
                     }
                     else

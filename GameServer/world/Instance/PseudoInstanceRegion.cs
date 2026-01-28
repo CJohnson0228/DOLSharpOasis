@@ -28,8 +28,9 @@ namespace DOL.GS
     /// A region class for pseudo-instance copies that returns the base region's 
     /// skin ID so the client displays the correct zone visuals.
     /// 
-    /// The skin ID is derived from the region ID by taking regionID / 10.
-    /// For example: Region 3970 -> Skin 397, Region 3971 -> Skin 397, etc.
+    /// Copy regions use the formula: baseRegionID + (500 * copyNumber)
+    /// The skin ID is derived by: regionID % 500 = baseRegionID
+    /// For example: Region 897, 1397, 1897 all map to Skin 397
     /// 
     /// To use: Set the Regions.ClassType field to 'DOL.GS.PseudoInstanceRegion'
     /// </summary>
@@ -48,10 +49,11 @@ namespace DOL.GS
             : base(time, data)
         {
             // Derive the skin ID from the region ID
-            // Region 3970, 3971, 3972 -> Skin 397
-            // This assumes copy regions are baseID * 10 + copyNumber
-            m_skinID = (ushort)(data.Id / 10);
-            
+            // Copy regions use: baseRegionID + (500 * copyNumber)
+            // So region 897, 1397, 1897 all map to skin 397
+            // Formula: regionID % 500 = baseRegionID
+            m_skinID = (ushort)(data.Id % 500);
+    
             log.Info("[PseudoInstanceRegion] Created region " + data.Id + " with skin " + m_skinID);
         }
 
