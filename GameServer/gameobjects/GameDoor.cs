@@ -146,9 +146,22 @@ namespace DOL.GS
 		/// <summary>
 		/// Get the ZoneID of this door
 		/// </summary>
+		/// <summary>
+		/// Get the ZoneID of this door
+		/// For pseudo-instance regions, returns the ZoneSkinID for client compatibility
+		/// </summary>
 		public virtual ushort ZoneID
 		{
-			get { return (ushort)(DoorID / 1000000); }
+			get 
+			{ 
+				// If door is in a zone with a different skin ID (pseudo-instance),
+				// return the skin ID so client packets use the correct door ID
+				if (CurrentZone != null && CurrentZone.ZoneSkinID != CurrentZone.ID)
+				{
+					return CurrentZone.ZoneSkinID;
+				}
+				return (ushort)(DoorID / 1000000); 
+			}
 		}
 
 		private int m_type;
