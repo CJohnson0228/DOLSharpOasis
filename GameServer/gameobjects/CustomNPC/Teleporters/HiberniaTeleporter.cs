@@ -148,11 +148,6 @@ namespace DOL.GS
 				case "necht":
 					break;	// No text?
 				case "oceanus":
-					if (player.Client.Account.PrivLevel < ServerProperties.Properties.ATLANTIS_TELEPORT_PLVL)
-					{
-						SayTo(player, "I'm sorry, but you are not authorized to enter Atlantis at this time.");
-						return;
-					}
 					SayTo(player, "You will soon arrive in the Haven of Oceanus.");
 					break;
 				case "personal":

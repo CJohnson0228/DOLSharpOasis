@@ -38,7 +38,7 @@ namespace DOL.GS
     /// Coop Dungeon Teleporter
     /// </summary>
     /// <author>CMeyerJohnson</author>
-    public class HibCatacombsObelisk : GameTeleporter
+    public class MidCatacombsObelisk : GameTeleporter
     {
         /// <summary>
         /// Add model and packageID to the teleporter.
@@ -47,15 +47,15 @@ namespace DOL.GS
         public override bool AddToWorld()
         {
             PackageID = "Yggdrasil";
-            Model = 1863;
-            Realm = eRealm.Hibernia;
+            Model = 2629;
+            Realm = eRealm.Midgard;
             Size = 40;
             return base.AddToWorld();
         }
         
         protected override string Type
         {
-            get { return "Hib Catacombs"; }
+            get { return "Mid Catacombs"; }
         }
         
         public override void TurnTo(GameObject target, int duration = 0)
@@ -108,11 +108,11 @@ namespace DOL.GS
                 "\n", 
                 "Will you venture into the burning depths of the [Glashtin Forge],\n",
                 "walk among the massive mushrooms in the [Underground Forest],\n",
-                "scour the [Deadlands of Annwn] for lost valuables,\n",
+                "scour the [Nyttheim] for lost valuables,\n",
                 "delve into the haunted depths of [The Otherworld],\n", 
                 "join the fight against the corrupted hordes on the [Frontlines],\n", 
                 "find your fortunes in the network of tunnels beneath Albion in the [Abandoned Mines].\n \n",
-                "or return to the relative safety of the [Queen's Labyrinth].");
+                "or return to the relative safety of the [Kobold Undercity].");
 
             SayTo(player, intro);
             return true;
