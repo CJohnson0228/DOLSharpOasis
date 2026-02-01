@@ -47,7 +47,7 @@ namespace DOL.GS
         public override bool AddToWorld()
         {
             PackageID = "Yggdrasil";
-            Model = 2629;
+            Model = 1823;
             Realm = eRealm.Midgard;
             Size = 40;
             return base.AddToWorld();
