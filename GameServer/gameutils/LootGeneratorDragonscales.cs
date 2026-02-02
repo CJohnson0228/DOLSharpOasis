@@ -68,7 +68,7 @@ namespace DOL.GS
 					case "myrddraxis":
 					case "nosdoden":
 					case "xanxicar":
-						iScaleCount = 10 * ServerProperties.Properties.LOOTGENERATOR_DRAGONSCALES_NAMED_COUNT;
+						iScaleCount = 20 * ServerProperties.Properties.LOOTGENERATOR_DRAGONSCALES_NAMED_COUNT;
 						break;
 					// Named Dragons
 					case "asiintath":
@@ -83,13 +83,13 @@ namespace DOL.GS
 					case "runicaath":
 					case "tollabarth":
 					case "varrkorith":
-						iScaleCount = 5 * ServerProperties.Properties.LOOTGENERATOR_DRAGONSCALES_NAMED_COUNT;
+						iScaleCount = 20 * ServerProperties.Properties.LOOTGENERATOR_DRAGONSCALES_NAMED_COUNT;
 						break;
 					// Dragon Spawn
 					case "glimmer dragon spawn":
 					case "stone dragon spawn":
 					case "wolf dragon spawn":
-						iScaleCount = 1;
+						iScaleCount = 5;
 						break;
 					default:
 						// Mobs range from 55 to 75, and we want an up to 10% bonus to drop chance based on that
@@ -102,7 +102,7 @@ namespace DOL.GS
 								// Named critter
 								iScaleCount = ServerProperties.Properties.LOOTGENERATOR_DRAGONSCALES_NAMED_COUNT;
 							else
-								iScaleCount = 1;
+								iScaleCount = 5;
 						}
 						break;
 				}
