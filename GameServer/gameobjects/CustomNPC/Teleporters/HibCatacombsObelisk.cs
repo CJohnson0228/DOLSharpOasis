@@ -103,7 +103,7 @@ namespace DOL.GS
                 return false;
 
             String intro = String.Format(
-                "Adventurer, the catacombs are a dangerous place, but I may be able to ease the burden of travel. {0} {1} {2} {3} {4} {5} {6} {7} {8}",
+                "Adventurer, the catacombs are a dangerous place, but I may be able to ease the burden of travel. {0} {1} {2} {3} {4} {5} {6} {7} {8} {9}",
                 "Locations I can teleport your mortal body too are as follows.\n", 
                 "\n", 
                 "Will you venture into the burning depths of the [Glashtin Forge],\n",
@@ -111,8 +111,9 @@ namespace DOL.GS
                 "scour the [Deadlands of Annwn] for lost valuables,\n",
                 "delve into the haunted depths of [The Otherworld],\n", 
                 "join the fight against the corrupted hordes on the [Frontlines],\n", 
+                "get lost within the twisting caverns of the [Queen's Labyrinth],\n", 
                 "find your fortunes in the network of tunnels beneath Albion in the [Abandoned Mines].\n \n",
-                "or return to the relative safety of the [Queen's Labyrinth].");
+                "or return to the relative safety of the [Shar Labyrinth].");
 
             SayTo(player, intro);
             return true;
