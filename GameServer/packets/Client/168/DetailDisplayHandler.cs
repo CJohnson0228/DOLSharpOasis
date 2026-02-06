@@ -72,6 +72,13 @@ namespace DOL.GS.PacketHandler.Client.v168
 
 			ChatUtil.SendDebugMessage(client, $"Delve objectType={objectType}, objectID={objectId}, extraID={extraId}");
 
+			// Temporary logging to reverse-engineer 1.127 client objectType codes for chat channel delves
+			if (log.IsInfoEnabled)
+				log.Info($"[DELVE-TRACE] Player={client.Player.Name} objectType={objectType} objectID={objectId} extraID={extraId} slot={(eInventorySlot)objectId}");
+
+			// Also send it as a visible system message so we can see it in-game without /debug
+			client.Out.SendMessage($"[DELVE-TRACE] objectType={objectType} objectID={objectId} extraID={extraId}", eChatType.CT_System, eChatLoc.CL_SystemWindow);
+
 			ItemTemplate item = null;
 			InventoryItem invItem = null;
 
