@@ -714,7 +714,18 @@ namespace DOL.GS.Quests
 			}
 			else
 			{
-				item = GameInventoryItem.Create(itemTemplate);
+				// Check if this ItemTemplate is registered as an artifact
+				String artifactID = ArtifactMgr.GetArtifactIDFromItemID(itemTemplate.Id_nb);
+				if (artifactID != null)
+				{
+					// Create as InventoryArtifact with level 0 and progression tracking
+					item = new InventoryArtifact(itemTemplate);
+				}
+				else
+				{
+					// Create as regular item
+					item = GameInventoryItem.Create(itemTemplate);
+				}
 			}
 
 			if (!player.ReceiveItem(source, item))
