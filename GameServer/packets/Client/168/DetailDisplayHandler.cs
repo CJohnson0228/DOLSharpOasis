@@ -788,24 +788,8 @@ namespace DOL.GS.PacketHandler.Client.v168
 						break;
 					}
 					#endregion
-					#region Group
-				case 12: // Item info to Group Chat
-					{
-						invItem = client.Player.Inventory.GetItem((eInventorySlot)objectId);
-						if (invItem == null)
-							return;
-						string str = LanguageMgr.GetTranslation(client.Account.Language, "DetailDisplayHandler.HandlePacket.Item", client.Player.Name, GetShortItemInfo(invItem, client));
-						if (client.Player.Group == null)
-						{
-							client.Out.SendMessage(LanguageMgr.GetTranslation(client.Account.Language, "DetailDisplayHandler.HandlePacket.NoGroup"), eChatType.CT_System, eChatLoc.CL_SystemWindow);
-							return;
-						}
-						client.Player.Group.SendMessageToGroupMembers(str, eChatType.CT_Group, eChatLoc.CL_ChatWindow);
-						return;
-					}
-					#endregion
 					#region Guild
-				case 13: // Item info to Guild Chat
+					case 12: // Item info to Guild Chat (1.127 client sends 12 for guild)
 					{
 						invItem = client.Player.Inventory.GetItem((eInventorySlot)objectId);
 						if (invItem == null)
@@ -830,8 +814,50 @@ namespace DOL.GS.PacketHandler.Client.v168
 						return;
 					}
 					#endregion
+					#region LegacyGuild
+					case 13: // Item info to Guild Chat
+					{
+						invItem = client.Player.Inventory.GetItem((eInventorySlot)objectId);
+						if (invItem == null)
+							return;
+						string str = LanguageMgr.GetTranslation(client.Account.Language, "DetailDisplayHandler.HandlePacket.GuildItem", client.Player.Name, GetShortItemInfo(invItem, client));
+						if (client.Player.Guild == null)
+						{
+							client.Out.SendMessage(LanguageMgr.GetTranslation(client.Account.Language, "DetailDisplayHandler.HandlePacket.DontBelongGuild"), eChatType.CT_System, eChatLoc.CL_SystemWindow);
+							return;
+						}
+						if (!client.Player.Guild.HasRank(client.Player, Guild.eRank.GcSpeak))
+						{
+							client.Out.SendMessage(LanguageMgr.GetTranslation(client.Account.Language, "DetailDisplayHandler.HandlePacket.NoPermissionToSpeak"), eChatType.CT_System, eChatLoc.CL_SystemWindow);
+							return;
+						}
+						foreach (GamePlayer ply in client.Player.Guild.GetListOfOnlineMembers())
+						{
+							if (!client.Player.Guild.HasRank(ply, Guild.eRank.GcHear))
+								continue;
+							ply.Out.SendMessage(str, eChatType.CT_Guild, eChatLoc.CL_ChatWindow);
+						}
+						return;
+					}
+					#endregion
+					#region Group
+					case 14: // Item info to Group Chat (1.127 client sends 14 for group)
+					{
+						invItem = client.Player.Inventory.GetItem((eInventorySlot)objectId);
+						if (invItem == null)
+							return;
+						string str = LanguageMgr.GetTranslation(client.Account.Language, "DetailDisplayHandler.HandlePacket.Item", client.Player.Name, GetShortItemInfo(invItem, client));
+						if (client.Player.Group == null)
+						{
+							client.Out.SendMessage(LanguageMgr.GetTranslation(client.Account.Language, "DetailDisplayHandler.HandlePacket.NoGroup"), eChatType.CT_System, eChatLoc.CL_SystemWindow);
+							return;
+						}
+						client.Player.Group.SendMessageToGroupMembers(str, eChatType.CT_Group, eChatLoc.CL_ChatWindow);
+						return;
+					}
+					#endregion
 					#region ChatGroup
-				case 15: // Item info to Chat group
+					case 15: // Item info to Chat group
 					{
 						invItem = client.Player.Inventory.GetItem((eInventorySlot)objectId);
 						if (invItem == null)
@@ -856,6 +882,7 @@ namespace DOL.GS.PacketHandler.Client.v168
 						return;
 					}
 					#endregion
+					
 					#region Trainer Window
 					//styles
 				case 20:
@@ -937,7 +964,8 @@ namespace DOL.GS.PacketHandler.Client.v168
 					}
 					#endregion
 					#region BattleGroup
-				case 103: // Item info to battle group
+					case 17:
+					case 103: // Item info to battle group
 					{
 						invItem = client.Player.Inventory.GetItem((eInventorySlot)objectId);
 						if (invItem == null) return;
