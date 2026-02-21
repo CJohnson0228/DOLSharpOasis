@@ -96,16 +96,19 @@ namespace DOL.GS.Keeps
 			if (player.Client.Account.PrivLevel > 1)
 				return true;
 
-			if (player.Group == null)
-			{
-				player.Out.SendMessage("You must be in a group to claim.", eChatType.CT_System, eChatLoc.CL_SystemWindow);
-				return false;
-			}
-			if (player.Group.MemberCount < ServerProperties.Properties.CLAIM_NUM)
-			{
-				player.Out.SendMessage("You need " + ServerProperties.Properties.CLAIM_NUM + " players to claim.", eChatType.CT_System, eChatLoc.CL_SystemWindow);
-				return false;
-			}
+			// remove group requirement for coop
+			// 
+			// if (player.Group == null)
+			// {
+			// 	player.Out.SendMessage("You must be in a group to claim.", eChatType.CT_System, eChatLoc.CL_SystemWindow);
+			// 	return false;
+			// }
+			//
+			// if (player.Group.MemberCount < ServerProperties.Properties.CLAIM_NUM)
+			// {
+			// 	player.Out.SendMessage("You need " + ServerProperties.Properties.CLAIM_NUM + " players to claim.", eChatType.CT_System, eChatLoc.CL_SystemWindow);
+			// 	return false;
+			// }
 
 			return base.CheckForClaim(player);
 		}

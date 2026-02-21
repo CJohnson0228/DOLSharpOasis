@@ -595,12 +595,13 @@ namespace DOL.GS.Keeps
 				log.DebugFormat("KEEPWARNING: {0} attempted to claim {1} while in combat.", player.Name, Name);
 				return false;
 			}
-
-			if(player.Realm != this.Realm)
-			{
-				player.Out.SendMessage("The keep is not owned by your realm.",eChatType.CT_System,eChatLoc.CL_SystemWindow);
-				return false;
-			}
+			// removed same realm check for coop server
+			//
+			// if(player.Realm != this.Realm)
+			// {
+			// 	player.Out.SendMessage("The keep is not owned by your realm.",eChatType.CT_System,eChatLoc.CL_SystemWindow);
+			// 	return false;
+			// }
 
 			if (player.Guild == null)
 			{
@@ -644,26 +645,28 @@ namespace DOL.GS.Keeps
 					}
 			}
 
-			if (player.Group != null)
-			{
-				int count = 0;
-				foreach (GamePlayer p in player.Group.GetPlayersInTheGroup())
-				{
-					if (GameServer.KeepManager.GetKeepCloseToSpot(p.Position, WorldMgr.VISIBILITY_DISTANCE) == this)
-						count++;
-				}
-
-				int needed = ServerProperties.Properties.CLAIM_NUM;
-				if (this is GameKeepTower)
-					needed = needed / 2;
-				if (player.Client.Account.PrivLevel > 1)
-					needed = 0;
-				if (count < needed)
-				{
-					player.Out.SendMessage("Not enough group members are near the keep. You have " + count + "/" + needed + ".", eChatType.CT_System, eChatLoc.CL_SystemWindow);
-					return false;
-				}
-			}
+			// remove group check for claim on coop server
+			//
+			// if (player.Group != null)
+			// {
+			// 	int count = 0;
+			// 	foreach (GamePlayer p in player.Group.GetPlayersInTheGroup())
+			// 	{
+			// 		if (GameServer.KeepManager.GetKeepCloseToSpot(p.Position, WorldMgr.VISIBILITY_DISTANCE) == this)
+			// 			count++;
+			// 	}
+			//
+			// 	int needed = ServerProperties.Properties.CLAIM_NUM;
+			// 	if (this is GameKeepTower)
+			// 		needed = needed / 2;
+			// 	if (player.Client.Account.PrivLevel > 1)
+			// 		needed = 0;
+			// 	if (count < needed)
+			// 	{
+			// 		player.Out.SendMessage("Not enough group members are near the keep. You have " + count + "/" + needed + ".", eChatType.CT_System, eChatLoc.CL_SystemWindow);
+			// 		return false;
+			// 	}
+			// }
 			return true;
 		}
 
