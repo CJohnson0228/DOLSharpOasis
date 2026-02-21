@@ -164,12 +164,6 @@ namespace DOL.GS.Keeps
 							if (k.Guild == player.Guild)
 								return false;
 						}
-						if (player.Group == null)
-							return false;
-						if (player.Group.Leader != player)
-							return false;
-						if (player.Group.MemberCount < ServerProperties.Properties.CLAIM_NUM)
-							return false;
 						if (!player.GuildRank.Claim)
 							return false;
 						break;

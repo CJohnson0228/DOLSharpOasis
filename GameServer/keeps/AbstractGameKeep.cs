@@ -602,12 +602,6 @@ namespace DOL.GS.Keeps
 				return false;
 			}
 
-			if (this.DBKeep.BaseLevel != 50)
-			{
-				player.Out.SendMessage("This keep is not able to be claimed.", eChatType.CT_System, eChatLoc.CL_SystemWindow);
-				return false;
-			}
-
 			if (player.Guild == null)
 			{
 				player.Out.SendMessage("You must be in a guild to claim a keep.",eChatType.CT_System,eChatLoc.CL_SystemWindow);
