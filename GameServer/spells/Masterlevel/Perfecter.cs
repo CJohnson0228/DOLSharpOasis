@@ -95,6 +95,7 @@ namespace DOL.GS.Spells
             : base(caster, spell, line)
         {
             ApplyOnNPC = false;
+            ApplyOnCombat = true;
 
             //Construct a new font.
             font = new GameFont();
@@ -307,7 +308,6 @@ namespace DOL.GS.Spells
 
         public override void OnDirectEffect(GameLiving target, double effectiveness)
         {
-            if (target.InCombat) return;
             if (target.ObjectState != GameObject.eObjectState.Active) return;
             if (target.IsAlive == false) return;
             if (target is GamePlayer)

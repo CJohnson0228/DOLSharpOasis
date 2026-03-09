@@ -1053,17 +1053,17 @@ namespace DOL.GS.Spells
                     && GameServer.ServerRules.IsAllowedToAttack(Caster, player, true)
                     && (!player.InCombat
                     || ApplyOnCombat))
-                        heal.StartSpell((GameLiving)player);
+                        ScriptMgr.CreateSpellHandler(m_caster, s, sl).StartSpell((GameLiving)player);
                 else if (Friendly && player.IsAlive && (!player.InCombat || ApplyOnCombat))
-                    heal.StartSpell((GameLiving)player);
+                    ScriptMgr.CreateSpellHandler(m_caster, s, sl).StartSpell((GameLiving)player);
             }
             if (!ApplyOnNPC) return;
             foreach (GameNPC npc in font.GetNPCsInRadius(sRadius))
             {
                 if (!Friendly && npc.IsAlive && GameServer.ServerRules.IsAllowedToAttack(Caster, npc, true) && (!npc.InCombat || ApplyOnCombat))
-                    heal.StartSpell((GameLiving)npc);
+                    ScriptMgr.CreateSpellHandler(m_caster, s, sl).StartSpell((GameLiving)npc);
                 if (Friendly && npc.IsAlive && (!npc.InCombat || ApplyOnCombat))
-                    heal.StartSpell((GameLiving)npc);
+                    ScriptMgr.CreateSpellHandler(m_caster, s, sl).StartSpell((GameLiving)npc);
             }
         }
 
